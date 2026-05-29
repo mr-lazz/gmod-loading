@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Murder UWU</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background: #080808;
+    color: #e0e0e0;
+    font-family: 'Segoe UI', sans-serif;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    user-select: none;
+}
+
+.particles {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: #8b0000;
+    border-radius: 50%;
+    opacity: 0;
+    animation: float linear infinite;
+}
+
+@keyframes float {
+    0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+    10%  { opacity: 0.4; }
+    90%  { opacity: 0.2; }
+    100% { transform: translateY(-10vh) translateX(40px); opacity: 0; }
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    text-align: center;
+}
+
+.logo-ring {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    border: 1px solid #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.logo-ring::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 1px solid #8b0000;
+    border-top-color: transparent;
+    animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.logo-text {
+    font-size: 22px;
+    font-weight: 300;
+    letter-spacing: 4px;
+    color: #cc2200;
+}
+
+.server-name {
+    font-size: 32px;
+    font-weight: 300;
+    letter-spacing: 6px;
+    color: #e8e8e8;
+    text-transform: uppercase;
+}
+
+.tagline {
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: #333;
+    text-transform: uppercase;
+}
+
+.divider {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, transparent, #2a2a2a, transparent);
+}
+
+.status-text {
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: #444;
+    text-transform: uppercase;
+    min-height: 16px;
+}
+
+.bar-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 320px;
+}
+
+.bar-track {
+    width: 100%;
+    height: 1px;
+    background: #161616;
+    position: relative;
+    overflow: hidden;
+}
+
+.bar-fill {
+    position: absolute;
+    top: 0; left: 0;
+    height: 100%;
+    width: 0%;
+    background: #8b0000;
+    transition: width 0.3s ease;
+}
+
+.bar-shimmer {
+    position: absolute;
+    top: 0; left: -100%;
+    height: 100%;
+    width: 60%;
+    background: linear-gradient(to right, transparent, rgba(200,30,30,0.3), transparent);
+    animation: shimmer 2s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+    to { left: 200%; }
+}
+
+.bar-percent {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #2a2a2a;
+    font-variant-numeric: tabular-nums;
+}
+
+.music-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    transition: opacity 0.8s;
+}
+
+.music-indicator.visible { opacity: 1; }
+
+.music-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 12px;
+}
+
+.music-bar {
+    width: 2px;
+    background: #5a0000;
+    border-radius: 1px;
+    animation: music-bounce 0.8s ease-in-out infinite alternate;
+}
+
+.music-bar:nth-child(1) { height: 4px;  animation-delay: 0s; }
+.music-bar:nth-child(2) { height: 10px; animation-delay: 0.15s; }
+.music-bar:nth-child(3) { height: 6px;  animation-delay: 0.3s; }
+.music-bar:nth-child(4) { height: 12px; animation-delay: 0.1s; }
+.music-bar:nth-child(5) { height: 5px;  animation-delay: 0.25s; }
+
+@keyframes music-bounce {
+    from { transform: scaleY(0.3); }
+    to   { transform: scaleY(1); }
+}
+
+.music-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #333;
+    text-transform: uppercase;
+}
+
+.tip {
+    position: fixed;
+    bottom: 32px;
+    font-size: 11px;
+    color: #222;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+</style>
+</head>
+<body>
+
+<div class="particles" id="particles"></div>
+
+<div class="container">
+    <div class="logo-ring">
+        <span class="logo-text">UWU</span>
+    </div>
+
+    <div>
+        <div class="server-name">Murder</div>
+        <div class="tagline" style="margin-top: 6px;">Cargando servidor</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="bar-wrapper">
+        <div class="status-text" id="status">Conectando...</div>
+        <div class="bar-track">
+            <div class="bar-fill" id="bar"></div>
+            <div class="bar-shimmer"></div>
+        </div>
+        <div class="bar-percent" id="percent">0%</div>
+    </div>
+
+    <div class="music-indicator" id="musicIndicator">
+        <div class="music-bars">
+            <div class="music-bar"></div>
+            <div class="music-bar"></div>
+            <div class="music-bar"></div>
+            <div class="music-bar"></div>
+            <div class="music-bar"></div>
+        </div>
+        <span class="music-label">reproduciendo</span>
+    </div>
+</div>
+
+<div class="tip">Prepárate para morir</div>
+
+<audio id="bgmusic" loop preload="auto">
+    <source src="que_es_la_vida_2007_vibes.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+var particles = document.getElementById('particles');
+for (var i = 0; i < 25; i++) {
+    var p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDuration = (8 + Math.random() * 12) + 's';
+    p.style.animationDelay = (Math.random() * 10) + 's';
+    p.style.width = p.style.height = (1 + Math.random() * 2) + 'px';
+    particles.appendChild(p);
+}
+
+var audio = document.getElementById('bgmusic');
+var indicator = document.getElementById('musicIndicator');
+
+function tryPlay() {
+    audio.volume = 0.6;
+    audio.play().then(function() {
+        indicator.classList.add('visible');
+    }).catch(function() {
+        document.addEventListener('click', function() {
+            audio.play();
+            indicator.classList.add('visible');
+        }, { once: true });
+    });
+}
+
+window.addEventListener('load', function() {
+    setTimeout(tryPlay, 500);
+});
+
+var statusEl = document.getElementById('status');
+var barEl = document.getElementById('bar');
+var percentEl = document.getElementById('percent');
+
+var statuses = [
+    "Conectando...",
+    "Descargando archivos...",
+    "Cargando mapa...",
+    "Iniciando gamemode...",
+    "Casi listo..."
+];
+
+var currentStatus = 0;
+var progress = 0;
+
+function updateProgress() {
+    if (typeof loadingprogress !== 'undefined') {
+        progress = Math.round(loadingprogress * 100);
+    } else {
+        progress = Math.min(progress + Math.random() * 3, 95);
+    }
+
+    barEl.style.width = progress + '%';
+    percentEl.textContent = Math.round(progress) + '%';
+
+    var idx = Math.floor((progress / 100) * statuses.length);
+    idx = Math.min(idx, statuses.length - 1);
+    if (idx !== currentStatus) {
+        currentStatus = idx;
+        statusEl.textContent = statuses[idx];
+    }
+
+    setTimeout(updateProgress, 400);
+}
+
+updateProgress();
+
+function GameDetails(servername, serverurl, mapname, maxplayers, steamid, gamemode) {
+    document.querySelector('.server-name').textContent = servername || 'Murder';
+}
+</script>
+</body>
+</html>
