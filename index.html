@@ -4,13 +4,26 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Murder UWU</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+    --red:      #c0392b;
+    --red-dark: #7b1010;
+    --red-glow: rgba(192,57,43,0.35);
+    --bg:       #060606;
+    --bg2:      #0d0d0d;
+    --text:     #d0d0d0;
+    --muted:    #383838;
+    --mono:     'Share Tech Mono', monospace;
+    --display:  'Bebas Neue', sans-serif;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
 
 body {
-    background: #080808;
-    color: #e0e0e0;
-    font-family: 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--mono);
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -18,117 +31,170 @@ body {
     justify-content: center;
     overflow: hidden;
     user-select: none;
+    cursor: default;
 }
 
-.particles {
+/* ── FONDO RUIDO ── */
+body::before {
+    content: '';
     position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    background-size: 180px;
+    opacity: 0.4;
     pointer-events: none;
     z-index: 0;
 }
 
-.particle {
+/* ── VIÑETA ── */
+body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.85) 100%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ── SANGRE QUE CAE ── */
+.drops {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.drop {
     position: absolute;
+    top: -60px;
     width: 2px;
-    height: 2px;
-    background: #8b0000;
-    border-radius: 50%;
+    border-radius: 0 0 50% 50%;
+    background: linear-gradient(to bottom, #8b0000, #c0392b);
     opacity: 0;
-    animation: float linear infinite;
+    animation: drip linear infinite;
 }
 
-@keyframes float {
-    0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
-    10%  { opacity: 0.4; }
-    90%  { opacity: 0.2; }
-    100% { transform: translateY(-10vh) translateX(40px); opacity: 0; }
+@keyframes drip {
+    0%   { transform: translateY(0);     opacity: 0; }
+    5%   { opacity: 0.7; }
+    80%  { opacity: 0.5; }
+    100% { transform: translateY(110vh); opacity: 0; }
 }
 
+/* ── LÍNEAS ESCANEADO ── */
+.scanlines {
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+        to bottom,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.08) 2px,
+        rgba(0,0,0,0.08) 4px
+    );
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* ── CONTENEDOR PRINCIPAL ── */
 .container {
     position: relative;
-    z-index: 1;
+    z-index: 10;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 28px;
+    gap: 0;
     text-align: center;
+    width: 420px;
 }
 
-.logo-ring {
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
-    border: 1px solid #1a1a1a;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
+/* ── TÍTULO ── */
+.title-block {
+    margin-bottom: 6px;
 }
 
-.logo-ring::before {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    border: 1px solid #8b0000;
-    border-top-color: transparent;
-    animation: spin 3s linear infinite;
+.title-uwu {
+    font-family: var(--display);
+    font-size: 96px;
+    line-height: 0.85;
+    color: var(--red);
+    letter-spacing: 8px;
+    text-shadow:
+        0 0 30px var(--red-glow),
+        0 0 80px rgba(192,57,43,0.15);
+    animation: flicker 6s ease-in-out infinite;
 }
 
-@keyframes spin {
-    to { transform: rotate(360deg); }
+@keyframes flicker {
+    0%,95%,100% { opacity: 1; }
+    96%          { opacity: 0.7; }
+    97%          { opacity: 1; }
+    98%          { opacity: 0.5; }
+    99%          { opacity: 0.9; }
 }
 
-.logo-text {
-    font-size: 22px;
-    font-weight: 300;
-    letter-spacing: 4px;
-    color: #cc2200;
-}
-
-.server-name {
-    font-size: 32px;
-    font-weight: 300;
-    letter-spacing: 6px;
-    color: #e8e8e8;
+.title-murder {
+    font-family: var(--display);
+    font-size: 38px;
+    letter-spacing: 18px;
+    color: #888;
     text-transform: uppercase;
+    margin-top: -6px;
 }
 
+.skull {
+    font-size: 18px;
+    margin: 0 6px;
+    opacity: 0.6;
+    animation: pulse-skull 2s ease-in-out infinite;
+}
+
+@keyframes pulse-skull {
+    0%,100% { opacity: 0.4; transform: scale(1); }
+    50%      { opacity: 0.9; transform: scale(1.15); }
+}
+
+/* ── TAGLINE ── */
 .tagline {
     font-size: 11px;
-    letter-spacing: 4px;
-    color: #333;
+    letter-spacing: 5px;
+    color: var(--muted);
     text-transform: uppercase;
+    margin: 14px 0 24px;
 }
 
+/* ── DIVISOR ── */
 .divider {
-    width: 1px;
-    height: 40px;
-    background: linear-gradient(to bottom, transparent, #2a2a2a, transparent);
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--red-dark), transparent);
+    margin-bottom: 24px;
 }
 
-.status-text {
-    font-size: 11px;
-    letter-spacing: 3px;
-    color: #444;
-    text-transform: uppercase;
-    min-height: 16px;
-}
-
+/* ── BARRA ── */
 .bar-wrapper {
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    width: 320px;
+    margin-bottom: 20px;
+}
+
+.status-text {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: #555;
+    text-transform: uppercase;
+    min-height: 14px;
+    transition: opacity 0.3s;
 }
 
 .bar-track {
     width: 100%;
-    height: 1px;
-    background: #161616;
+    height: 2px;
+    background: #111;
     position: relative;
     overflow: hidden;
 }
@@ -138,7 +204,8 @@ body {
     top: 0; left: 0;
     height: 100%;
     width: 0%;
-    background: #8b0000;
+    background: var(--red);
+    box-shadow: 0 0 8px var(--red-glow);
     transition: width 0.3s ease;
 }
 
@@ -146,87 +213,136 @@ body {
     position: absolute;
     top: 0; left: -100%;
     height: 100%;
-    width: 60%;
-    background: linear-gradient(to right, transparent, rgba(200,30,30,0.3), transparent);
+    width: 50%;
+    background: linear-gradient(to right, transparent, rgba(255,100,80,0.4), transparent);
     animation: shimmer 2s ease-in-out infinite;
 }
 
-@keyframes shimmer {
-    to { left: 200%; }
+@keyframes shimmer { to { left: 200%; } }
+
+.bar-row {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .bar-percent {
     font-size: 10px;
     letter-spacing: 2px;
-    color: #2a2a2a;
-    font-variant-numeric: tabular-nums;
+    color: var(--muted);
 }
 
-.music-indicator {
+.bar-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #2a2a2a;
+}
+
+/* ── MÚSICA ── */
+.music-row {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     opacity: 0;
-    transition: opacity 0.8s;
+    transition: opacity 1s;
+    margin-bottom: 20px;
 }
 
-.music-indicator.visible { opacity: 1; }
+.music-row.visible { opacity: 1; }
 
 .music-bars {
     display: flex;
     align-items: flex-end;
     gap: 2px;
-    height: 12px;
+    height: 14px;
 }
 
-.music-bar {
+.mbar {
     width: 2px;
-    background: #5a0000;
+    background: var(--red-dark);
     border-radius: 1px;
-    animation: music-bounce 0.8s ease-in-out infinite alternate;
+    animation: mbounce 0.7s ease-in-out infinite alternate;
 }
 
-.music-bar:nth-child(1) { height: 4px;  animation-delay: 0s; }
-.music-bar:nth-child(2) { height: 10px; animation-delay: 0.15s; }
-.music-bar:nth-child(3) { height: 6px;  animation-delay: 0.3s; }
-.music-bar:nth-child(4) { height: 12px; animation-delay: 0.1s; }
-.music-bar:nth-child(5) { height: 5px;  animation-delay: 0.25s; }
+.mbar:nth-child(1) { height: 5px;  animation-delay: 0s; }
+.mbar:nth-child(2) { height: 11px; animation-delay: 0.12s; }
+.mbar:nth-child(3) { height: 7px;  animation-delay: 0.28s; }
+.mbar:nth-child(4) { height: 13px; animation-delay: 0.08s; }
+.mbar:nth-child(5) { height: 4px;  animation-delay: 0.22s; }
 
-@keyframes music-bounce {
-    from { transform: scaleY(0.3); }
+@keyframes mbounce {
+    from { transform: scaleY(0.2); }
     to   { transform: scaleY(1); }
 }
 
 .music-label {
     font-size: 10px;
-    letter-spacing: 2px;
-    color: #333;
+    letter-spacing: 3px;
+    color: #2e2e2e;
     text-transform: uppercase;
 }
 
-.tip {
-    position: fixed;
-    bottom: 32px;
-    font-size: 11px;
-    color: #222;
-    letter-spacing: 2px;
+/* ── TIP ── */
+.tip-box {
+    width: 100%;
+    border-left: 2px solid var(--red-dark);
+    padding: 10px 14px;
+    background: rgba(192,57,43,0.04);
+    text-align: left;
+    min-height: 52px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.tip-label {
+    font-size: 9px;
+    letter-spacing: 4px;
+    color: var(--red-dark);
     text-transform: uppercase;
+}
+
+.tip-text {
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: #555;
+    line-height: 1.5;
+    transition: opacity 0.5s;
+}
+
+/* ── FOOTER ── */
+.footer {
+    position: fixed;
+    bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    color: #1e1e1e;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    z-index: 10;
 }
 </style>
 </head>
 <body>
 
-<div class="particles" id="particles"></div>
+<div class="drops" id="drops"></div>
+<div class="scanlines"></div>
 
 <div class="container">
-    <div class="logo-ring">
-        <span class="logo-text">UWU</span>
+
+    <div class="title-block">
+        <div class="title-uwu">UWU</div>
+        <div class="title-murder">
+            <span class="skull">💀</span>
+            MURDER
+            <span class="skull">💀</span>
+        </div>
     </div>
 
-    <div>
-        <div class="server-name">Murder</div>
-        <div class="tagline" style="margin-top: 6px;">Cargando servidor</div>
-    </div>
+    <div class="tagline">Prepárense para morir, layas</div>
 
     <div class="divider"></div>
 
@@ -236,61 +352,148 @@ body {
             <div class="bar-fill" id="bar"></div>
             <div class="bar-shimmer"></div>
         </div>
-        <div class="bar-percent" id="percent">0%</div>
+        <div class="bar-row">
+            <div class="bar-label" id="mapname">cargando mapa...</div>
+            <div class="bar-percent" id="percent">0%</div>
+        </div>
     </div>
 
-    <div class="music-indicator" id="musicIndicator">
+    <div class="music-row" id="musicRow">
         <div class="music-bars">
-            <div class="music-bar"></div>
-            <div class="music-bar"></div>
-            <div class="music-bar"></div>
-            <div class="music-bar"></div>
-            <div class="music-bar"></div>
+            <div class="mbar"></div>
+            <div class="mbar"></div>
+            <div class="mbar"></div>
+            <div class="mbar"></div>
+            <div class="mbar"></div>
         </div>
-        <span class="music-label">reproduciendo</span>
+        <span class="music-label" id="musicLabel">reproduciendo</span>
     </div>
+
+    <div class="tip-box">
+        <div class="tip-label">// consejo</div>
+        <div class="tip-text" id="tipText">Cargando...</div>
+    </div>
+
 </div>
 
-<div class="tip">Prepárate para morir</div>
+<div class="footer">
+    <span>💀</span>
+    <span>murderuwu</span>
+    <span>💀</span>
+</div>
 
-<audio id="bgmusic" loop preload="auto">
-    <source src="que_es_la_vida_2007_vibes.mp3" type="audio/mpeg">
-</audio>
+<audio id="bgmusic" preload="auto"></audio>
 
 <script>
-var particles = document.getElementById('particles');
-for (var i = 0; i < 25; i++) {
-    var p = document.createElement('div');
-    p.className = 'particle';
-    p.style.left = Math.random() * 100 + '%';
-    p.style.animationDuration = (8 + Math.random() * 12) + 's';
-    p.style.animationDelay = (Math.random() * 10) + 's';
-    p.style.width = p.style.height = (1 + Math.random() * 2) + 'px';
-    particles.appendChild(p);
+// ── GOTAS DE SANGRE ──
+var dropsEl = document.getElementById('drops');
+for (var i = 0; i < 18; i++) {
+    var d = document.createElement('div');
+    d.className = 'drop';
+    d.style.left            = (Math.random() * 100) + '%';
+    d.style.height          = (20 + Math.random() * 50) + 'px';
+    d.style.animationDuration = (4 + Math.random() * 10) + 's';
+    d.style.animationDelay  = (Math.random() * 12) + 's';
+    d.style.opacity         = 0;
+    dropsEl.appendChild(d);
 }
 
-var audio = document.getElementById('bgmusic');
-var indicator = document.getElementById('musicIndicator');
+// ── MÚSICA RANDOM ──
+var songs = [
+    { file: "que_es_la_vida_2007_vibes.mp3",    label: "que es la vida — 2007 vibes" },
+    { file: "moza_moza_2010_vibes.mp3",          label: "moza moza — 2010 vibes"      },
+    { file: "padre_nuestro_dross_2013.mp3",       label: "padre nuestro — dross 2013"  },
+    { file: "por_que_no_2007_vibes.mp3",          label: "por que no — 2007 vibes"     },
+    { file: "dota_2008_vibes.mp3",                label: "dota — 2008 vibes"           }
+];
 
-function tryPlay() {
-    audio.volume = 0.6;
+var audio       = document.getElementById('bgmusic');
+var musicRow    = document.getElementById('musicRow');
+var musicLabel  = document.getElementById('musicLabel');
+var currentIdx  = -1;
+var songTimer   = null;
+var SONG_MS     = 70000; // 1:10
+var FADE_MS     = 2000;
+
+function randomSong() {
+    var idx;
+    do { idx = Math.floor(Math.random() * songs.length); }
+    while (idx === currentIdx);
+    currentIdx = idx;
+    return songs[idx];
+}
+
+function fadeTo(target, ms, cb) {
+    var start = audio.volume;
+    var steps = 40;
+    var dt    = ms / steps;
+    var dv    = (target - start) / steps;
+    var n     = 0;
+    var iv    = setInterval(function() {
+        n++;
+        audio.volume = Math.min(1, Math.max(0, start + dv * n));
+        if (n >= steps) {
+            clearInterval(iv);
+            if (cb) cb();
+        }
+    }, dt);
+}
+
+function playSong() {
+    var s = randomSong();
+    audio.src = s.file;
+    audio.volume = 0;
     audio.play().then(function() {
-        indicator.classList.add('visible');
+        musicRow.classList.add('visible');
+        musicLabel.textContent = s.label;
+        fadeTo(0.55, FADE_MS);
+        if (songTimer) clearTimeout(songTimer);
+        songTimer = setTimeout(function() {
+            fadeTo(0, FADE_MS, function() { playSong(); });
+        }, SONG_MS);
     }).catch(function() {
-        document.addEventListener('click', function() {
-            audio.play();
-            indicator.classList.add('visible');
-        }, { once: true });
+        document.addEventListener('click', function() { playSong(); }, { once: true });
     });
 }
 
-window.addEventListener('load', function() {
-    setTimeout(tryPlay, 500);
-});
+window.addEventListener('load', function() { setTimeout(playSong, 600); });
 
+// ── TIPS ──
+var tips = [
+    "El asesino puede agarrar a un inocente como escudo humano — presiona H cerca de alguien. El rehén puede escapar presionando A o D rápido.",
+    "El asesino puede recoger hasta 4 objetos sin delatarse. ¡Al 5to te descubren! Ojo con cuántos agarras.",
+    "El primero en recoger 5 objetos recibe la Magnum. Con ella podés matar a cualquiera — incluso al asesino.",
+    "Si los 15 objetos se agotan y nadie llegó a 5... Dios nos ha abandonado. Suerte encontrándose en la oscuridad.",
+    "El asesino puede disfrazarse de un cadáver presionando E cerca del ragdoll. Necesita al menos 1 objeto recogido.",
+    "Los inocentes ganan si el timer llega a 0. El asesino tiene que actuar rápido o será delatado por la niebla.",
+    "Si ves en el tablero que alguien tiene 5 objetos pero nunca sacó la Magnum... ya sabés quién es el asesino.",
+    "Cuando morís te quedás de espectador con música de Silent Hill. Si te molesta podés bajarla en Opciones → Audio.",
+    "La linterna dura solo 1 minuto. Usala con cuidado — quedarte a oscuras con el asesino cerca no es buena idea.",
+    "El asesino corre más rápido que los inocentes. No te alejés demasiado del grupo si no tenés la Magnum."
+];
+
+var tipEl      = document.getElementById('tipText');
+var tipIdx     = Math.floor(Math.random() * tips.length);
+var TIP_MS     = 7000;
+
+function showTip() {
+    tipEl.style.opacity = 0;
+    setTimeout(function() {
+        tipIdx = (tipIdx + 1) % tips.length;
+        tipEl.textContent = tips[tipIdx];
+        tipEl.style.opacity = 1;
+    }, 500);
+}
+
+tipEl.textContent = tips[tipIdx];
+tipEl.style.opacity = 1;
+setInterval(showTip, TIP_MS);
+
+// ── BARRA DE PROGRESO ──
 var statusEl = document.getElementById('status');
-var barEl = document.getElementById('bar');
-var percentEl = document.getElementById('percent');
+var barEl    = document.getElementById('bar');
+var percentEl= document.getElementById('percent');
+var mapEl    = document.getElementById('mapname');
 
 var statuses = [
     "Conectando...",
@@ -301,23 +504,22 @@ var statuses = [
 ];
 
 var currentStatus = 0;
-var progress = 0;
+var progress      = 0;
 
 function updateProgress() {
     if (typeof loadingprogress !== 'undefined') {
         progress = Math.round(loadingprogress * 100);
     } else {
-        progress = Math.min(progress + Math.random() * 3, 95);
+        progress = Math.min(progress + Math.random() * 2.5, 95);
     }
 
-    barEl.style.width = progress + '%';
+    barEl.style.width     = progress + '%';
     percentEl.textContent = Math.round(progress) + '%';
 
-    var idx = Math.floor((progress / 100) * statuses.length);
-    idx = Math.min(idx, statuses.length - 1);
+    var idx = Math.min(Math.floor((progress / 100) * statuses.length), statuses.length - 1);
     if (idx !== currentStatus) {
-        currentStatus = idx;
-        statusEl.textContent = statuses[idx];
+        currentStatus         = idx;
+        statusEl.textContent  = statuses[idx];
     }
 
     setTimeout(updateProgress, 400);
@@ -325,8 +527,9 @@ function updateProgress() {
 
 updateProgress();
 
+// ── INFO DEL SERVIDOR ──
 function GameDetails(servername, serverurl, mapname, maxplayers, steamid, gamemode) {
-    document.querySelector('.server-name').textContent = servername || 'Murder';
+    if (mapname) mapEl.textContent = '📍 ' + mapname;
 }
 </script>
 </body>
