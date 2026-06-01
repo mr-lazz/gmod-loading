@@ -106,7 +106,7 @@ body::after {
     align-items: center;
     gap: 0;
     text-align: center;
-    width: 650px;
+    width: 900px;
 }
 
 /* ── TÍTULO ── */
@@ -116,13 +116,13 @@ body::after {
 
 .title-uwu {
     font-family: var(--display);
-    font-size: 140px;
+    font-size: 220px;
     line-height: 0.85;
     color: var(--red);
-    letter-spacing: 8px;
+    letter-spacing: 12px;
     text-shadow:
-        0 0 30px var(--red-glow),
-        0 0 80px rgba(192,57,43,0.15);
+        0 0 50px rgba(192,57,43,0.45),
+        0 0 120px rgba(192,57,43,0.25);
     animation: flicker 6s ease-in-out infinite;
 }
 
@@ -133,20 +133,20 @@ body::after {
     98%          { opacity: 0.5; }
     99%          { opacity: 0.9; }
 }
-
+    
 .title-murder {
     font-family: var(--display);
-    font-size: 56px;
-    letter-spacing: 18px;
-    color: #888;
+    font-size: 78px;
+    letter-spacing: 22px;
+    color: #9a9a9a;
     text-transform: uppercase;
-    margin-top: -6px;
+    margin-top: -12px;
 }
 
 .skull {
-    font-size: 18px;
-    margin: 0 6px;
-    opacity: 0.6;
+    font-size: 30px;
+    margin: 0 12px;
+    opacity: 0.7;
     animation: pulse-skull 2s ease-in-out infinite;
 }
 
@@ -157,19 +157,19 @@ body::after {
 
 /* ── TAGLINE ── */
 .tagline {
-    font-size: 11px;
-    letter-spacing: 5px;
-    color: var(--muted);
+    font-size: 18px;
+    letter-spacing: 7px;
+    color: #666;
     text-transform: uppercase;
-    margin: 14px 0 24px;
+    margin: 24px 0 34px;
 }
 
 /* ── DIVISOR ── */
 .divider {
     width: 100%;
-    height: 1px;
+    height: 2px;
     background: linear-gradient(to right, transparent, var(--red-dark), transparent);
-    margin-bottom: 24px;
+    margin-bottom: 34px;
 }
 
 /* ── BARRA ── */
@@ -183,11 +183,11 @@ body::after {
 }
 
 .status-text {
-    font-size: 10px;
-    letter-spacing: 3px;
-    color: #555;
+    font-size: 18px;
+    letter-spacing: 5px;
+    color: #777;
     text-transform: uppercase;
-    min-height: 14px;
+    min-height: 22px;
     transition: opacity 0.3s;
 }
 
@@ -228,25 +228,25 @@ body::after {
 }
 
 .bar-percent {
-    font-size: 10px;
-    letter-spacing: 2px;
-    color: var(--muted);
+    font-size: 16px;
+    letter-spacing: 3px;
+    color: #777;
 }
 
 .bar-label {
-    font-size: 10px;
-    letter-spacing: 2px;
-    color: #2a2a2a;
+    font-size: 16px;
+    letter-spacing: 3px;
+    color: #555;
 }
 
 /* ── MÚSICA ── */
 .music-row {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 14px;
     opacity: 0;
     transition: opacity 1s;
-    margin-bottom: 20px;
+    margin-bottom: 28px;
 }
 
 .music-row.visible { opacity: 1; }
@@ -255,7 +255,7 @@ body::after {
     display: flex;
     align-items: flex-end;
     gap: 2px;
-    height: 14px;
+    height: 22px;
 }
 
 .mbar {
@@ -277,36 +277,36 @@ body::after {
 }
 
 .music-label {
-    font-size: 10px;
-    letter-spacing: 3px;
-    color: #2e2e2e;
+    font-size: 16px;
+    letter-spacing: 4px;
+    color: #555;
     text-transform: uppercase;
 }
 
 /* ── TIP ── */
 .tip-box {
     width: 100%;
-    border-left: 2px solid var(--red-dark);
-    padding: 10px 14px;
-    background: rgba(192,57,43,0.04);
+    border-left: 4px solid var(--red-dark);
+    padding: 18px 20px;
+    background: rgba(192,57,43,0.06);
     text-align: left;
-    min-height: 52px;
+    min-height: 90px;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 8px;
 }
 
 .tip-label {
-    font-size: 9px;
-    letter-spacing: 4px;
-    color: var(--red-dark);
+    font-size: 14px;
+    letter-spacing: 5px;
+    color: #c0392b;
     text-transform: uppercase;
 }
 
 .tip-text {
     font-size: 14px;
     letter-spacing: 1px;
-    color: #555;
+    color: #8a8a8a;
     line-height: 1.5;
     transition: opacity 0.5s;
 }
@@ -317,10 +317,10 @@ body::after {
     bottom: 28px;
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 11px;
-    color: #1e1e1e;
-    letter-spacing: 3px;
+    gap: 12px;
+    font-size: 16px;
+    color: #444;
+    letter-spacing: 4px;
     text-transform: uppercase;
     z-index: 10;
 }
@@ -342,7 +342,7 @@ body::after {
         </div>
     </div>
 
-    <div class="tagline">Prepárense para morir, layas</div>
+    <div class="tagline">Prepárense para SER VIOLADOS, MALAYAS 🗿</div>
 
     <div class="divider"></div>
 
